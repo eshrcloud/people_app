@@ -256,7 +256,7 @@ class _ServiceRecordScreenState extends State<ServiceRecordScreen> {
         child: Icon(Icons.work),
         onPressed: (){
           navigateToServiceDetail(Service_Log.WithId(m_ServiceID:0, m_TeamID:0, m_Product: '', m_Client: '',
-            m_Description:'', m_ReqDate:vToday, m_TargetDate:vToday, m_Finish:false, m_Charges:0,
+            m_Description:'', m_ReqDate:vToday, m_TargetDate:vToday, m_Finish:false, m_Charges:0, m_Income: 0, m_Expense: 0, m_IEType: 0,
             m_Paid:false, m_Remark:'', m_EmpID:User.employeeId, m_editUserID: User.employeeId, m_editDateTime: DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()))));
         });
   }

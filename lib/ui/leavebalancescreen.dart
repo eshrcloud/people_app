@@ -253,7 +253,7 @@ class _LeaveBalanceScreenState extends State<LeaveBalanceScreen> {
           navigateToLeaveRequest(Leave_Request_His.WithId(m_req_ID: 0,m_emp_ID: User.employeeId,m_card_ID: 0,m_post_ID: 0,m_dept_ID:0,
               m_request_Date:DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now())),m_leave_Type_ID:0,
               m_from_Date:DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now())),m_to_Date:DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now())),m_days:1,m_hLV_Status:0,
-              m_reason:'',m_status:0,m_approve_Emp_ID:0,m_approve_Date:DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now())),m_remark:'', m_editUserID: User.employeeId, m_editDateTime: DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()))));
+              m_reason:'',m_status:0,m_approve_Emp_ID:0,m_approve_Date:DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now())),m_remark:'',m_attach_Type: '', m_editUserID: User.employeeId, m_editDateTime: DateTime.parse(DateFormat('yyyy-MM-dd').format(DateTime.now()))));
         });
   }
 
