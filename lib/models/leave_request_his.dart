@@ -15,18 +15,19 @@ class Leave_Request_His {
   late int? m_approve_Emp_ID;
   late DateTime? m_approve_Date;
   late String m_remark;
+  late String m_attach_Type;
   late  double?  m_editUserID;
   late  DateTime?  m_editDateTime;
 
   Leave_Request_His({ required this.m_emp_ID, required this.m_card_ID,
     required this.m_post_ID, required this.m_dept_ID, required this.m_request_Date, required this.m_leave_Type_ID,
     required this.m_from_Date, required this.m_to_Date, required this.m_days, required this.m_hLV_Status, required this.m_reason, required this.m_status,
-    required this.m_approve_Emp_ID, required this.m_approve_Date, required this.m_remark, required this.m_editUserID, required this.m_editDateTime
+    required this.m_approve_Emp_ID, required this.m_approve_Date, required this.m_remark, required this.m_attach_Type, required this.m_editUserID, required this.m_editDateTime
   });
   Leave_Request_His.WithId({ required this.m_req_ID, required this.m_emp_ID, required this.m_card_ID,
     required this.m_post_ID, required this.m_dept_ID, required this.m_request_Date, required this.m_leave_Type_ID,
     required this.m_from_Date, required this.m_to_Date, required this.m_days, required this.m_hLV_Status, required this.m_reason, required this.m_status,
-    required this.m_approve_Emp_ID, required this.m_approve_Date, required this.m_remark, required this.m_editUserID, required this.m_editDateTime
+    required this.m_approve_Emp_ID, required this.m_approve_Date, required this.m_remark, required this.m_attach_Type, required this.m_editUserID, required this.m_editDateTime
   });
 
   double get req_ID => m_req_ID;
@@ -45,6 +46,7 @@ class Leave_Request_His {
   int? get approve_Emp_ID => m_approve_Emp_ID;
   DateTime? get approve_Date => m_approve_Date;
   String get remark => m_remark;
+  String get attach_Type => m_attach_Type;
   double? get editUserID => m_editUserID;
   DateTime? get editDateTime => m_editDateTime;
 
@@ -64,6 +66,7 @@ class Leave_Request_His {
   set approve_Emp_ID(int? newapprove_Emp_ID){ m_approve_Emp_ID = newapprove_Emp_ID; }
   set approve_Date(DateTime? newapprove_Date){ m_approve_Date = newapprove_Date; }
   set remark(String newremark){ m_remark = newremark; }
+  set attach_Type(String newattach_Type){ m_attach_Type = newattach_Type; }
   set editUserID(double? neweditUserID){ m_editUserID = neweditUserID; }
   set editDateTime(DateTime? neweditDateTime){ m_editDateTime = neweditDateTime; }
 
@@ -83,6 +86,7 @@ class Leave_Request_His {
       map["approve_Emp_ID"]=m_approve_Emp_ID;
       map["approve_Date"]=m_approve_Date!.toIso8601String();
       map["remark"]=m_remark;
+      map["attach_Type"]=m_attach_Type;
       map["editUserID"]=m_editUserID;
       map["editDateTime"]=m_editDateTime!.toIso8601String();
 
@@ -109,6 +113,7 @@ class Leave_Request_His {
     this.m_approve_Emp_ID = o["approve_Emp_ID"] != null ? o["approve_Emp_ID"] : 0;
     this.m_approve_Date = o["approve_Date"] != null ? DateTime.parse(o["approve_Date"]) : null;
     this.m_remark = o["remark"] != null ? o["remark"] : '';
+    this.m_attach_Type = o["attach_Type"] != null ? o["attach_Type"] : '';
     this.m_editUserID = o["editUserID"] != null ? double.parse(o["editUserID"].toString()) : null;
     this.m_editDateTime = o["editDateTime"] != null ? DateTime.parse(o["editDateTime"].toString()) : null;
   }
