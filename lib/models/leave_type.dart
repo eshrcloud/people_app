@@ -14,18 +14,19 @@ class Leave_Type {
   late int? m_leave_Upto;
   late int? m_carry_Upto;
   late int? m_leaveReqBeforeDay;
+  late int? m_attach_Include;
   late double? m_editUserID;
   late DateTime? m_editDateTime;
 
   Leave_Type({ required this.m_leave_Type_Name, required this.m_leave_Type_Code,
     required this.m_default_Value, required this.m_entitlement, required this.m_is_Sys, required this.m_yearly_Entitlement,
     required this.m_leave_Limit, required this.m_serviceOnEntitle, required this.m_duration, required this.m_job_Status_ID,
-    required this.m_leave_Increase, required this.m_leave_Upto, required this.m_carry_Upto, required this.m_leaveReqBeforeDay, required this.m_editUserID, required this.m_editDateTime
+    required this.m_leave_Increase, required this.m_leave_Upto, required this.m_carry_Upto, required this.m_leaveReqBeforeDay, required this.m_attach_Include, required this.m_editUserID, required this.m_editDateTime
   });
   Leave_Type.WithId({ required this.m_leave_Type_ID, required this.m_leave_Type_Name, required this.m_leave_Type_Code,
     required this.m_default_Value, required this.m_entitlement, required this.m_is_Sys, required this.m_yearly_Entitlement,
     required this.m_leave_Limit, required this.m_serviceOnEntitle, required this.m_duration, required this.m_job_Status_ID,
-    required this.m_leave_Increase, required this.m_leave_Upto, required this.m_carry_Upto, required this.m_leaveReqBeforeDay, required this.m_editUserID, required this.m_editDateTime
+    required this.m_leave_Increase, required this.m_leave_Upto, required this.m_carry_Upto, required this.m_leaveReqBeforeDay, required this.m_attach_Include, required this.m_editUserID, required this.m_editDateTime
   });
 
   int get leave_Type_ID => m_leave_Type_ID;
@@ -43,6 +44,7 @@ class Leave_Type {
   int? get leave_Upto => m_leave_Upto;
   int? get carry_Upto => m_carry_Upto;
   int? get leaveReqBeforeDay => m_leaveReqBeforeDay;
+  int? get attach_Include => m_attach_Include;
   double? get editUserID => m_editUserID;
   DateTime? get editDateTime => m_editDateTime;
 
@@ -60,6 +62,7 @@ class Leave_Type {
   set leave_Upto(int? newleave_Upto){ m_leave_Upto = newleave_Upto; }
   set carry_Upto(int? newcarry_Upto){ m_carry_Upto = newcarry_Upto; }
   set leaveReqBeforeDay(int? newleaveReqBeforeDay){ m_leaveReqBeforeDay = newleaveReqBeforeDay; }
+  set attach_Include(int? newattach_Include){ m_attach_Include = newattach_Include; }
   set editUserID(double? neweditUserID){ m_editUserID = neweditUserID; }
   set editDateTime(DateTime? neweditDateTime){ m_editDateTime = neweditDateTime; }
 
@@ -79,6 +82,7 @@ class Leave_Type {
       map["leave_Upto"]=m_leave_Upto;
       map["carry_Upto"]=m_carry_Upto;
       map["leaveReqBeforeDay"]=m_leaveReqBeforeDay;
+      map["attach_Include"]=m_attach_Include;
       map["editUserID"]=m_editUserID;
       map["editDateTime"]=m_editDateTime!.toIso8601String();
 
@@ -104,6 +108,8 @@ class Leave_Type {
     this.m_leave_Increase = o["leave_Increase"];
     this.m_leave_Upto = o["leave_Upto"];
     this.m_carry_Upto = o["carry_Upto"];
+    this.m_leaveReqBeforeDay = o["leaveReqBeforeDay"] != null ? int.parse(o["leaveReqBeforeDay"].toString()) : null;
+    this.m_attach_Include = o["attach_Include"] != null ? int.parse(o["attach_Include"].toString()) : null;
     this.m_editUserID = o["editUserID"] != null ? double.parse(o["editUserID"].toString()) : null;
     this.m_editDateTime = o["editDateTime"] != null ? DateTime.parse(o["editDateTime"].toString()) : null;
   }
