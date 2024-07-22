@@ -1,6 +1,7 @@
 
 class Service_Log {
   late double m_ServiceID;
+  late  String? m_JobTicketNo;
   late  int? m_TeamID;
   late  String? m_Product;
   late  String? m_Client;
@@ -9,6 +10,9 @@ class Service_Log {
   late  DateTime? m_TargetDate;
   late  bool? m_Finish;
   late  double?  m_Charges;
+  late  double?  m_Income;
+  late  double?  m_Expense;
+  late  int?  m_IEType;
   late  bool?  m_Paid;
   late  String?  m_Remark;
   late double? m_EmpID;
@@ -16,11 +20,11 @@ class Service_Log {
   late DateTime? m_editDateTime;
 
   Service_Log({ required this.m_TeamID, required this.m_Product, required this.m_Client, required this.m_Description,
-    required this.m_ReqDate, required this.m_TargetDate, required this.m_Finish, required this.m_Charges,
+    required this.m_ReqDate, required this.m_TargetDate, required this.m_Finish, required this.m_Charges, required this.m_Income, required this.m_Expense, required this.m_IEType,
     required this.m_Paid, required this.m_Remark, required this.m_EmpID, required this.m_editUserID, required this.m_editDateTime
   });
   Service_Log.WithId({ required this.m_ServiceID, required this.m_TeamID, required this.m_Product, required this.m_Client, required this.m_Description,
-    required this.m_ReqDate, required this.m_TargetDate, required this.m_Finish, required this.m_Charges,
+    required this.m_ReqDate, required this.m_TargetDate, required this.m_Finish, required this.m_Charges, required this.m_Income, required this.m_Expense, required this.m_IEType,
     required this.m_Paid, required this.m_Remark, required this.m_EmpID, required this.m_editUserID, required this.m_editDateTime
   });
 
@@ -33,6 +37,9 @@ class Service_Log {
   DateTime? get targetDate => m_TargetDate;
   bool? get finish => m_Finish;
   double? get charges => m_Charges;
+  double? get income => m_Income;
+  double? get expense => m_Expense;
+  int? get ieType => m_IEType;
   bool? get paid => m_Paid;
   String? get remark => m_Remark;
   double? get empID => m_EmpID;
@@ -48,6 +55,9 @@ class Service_Log {
   set targetDate(DateTime? newTargetDate){ m_TargetDate = newTargetDate; }
   set finish(bool? newFinish){ m_Finish = newFinish; }
   set charges(double? newCharges){ m_Charges = newCharges; }
+  set income(double? newIncome){ m_Income = newIncome; }
+  set expense(double? newExpense){ m_Expense = newExpense; }
+  set ieType(int? newIEType){ m_IEType = newIEType; }
   set paid(bool? newPaid){ m_Paid = newPaid; }
   set remark(String? newRemark){ m_Remark = newRemark; }
   set empID(double? newEmpID){ m_EmpID = newEmpID; }
@@ -64,6 +74,9 @@ class Service_Log {
     map["targetDate"]= m_TargetDate != null ? m_TargetDate!.toIso8601String() : null;
     map["finish"]=m_Finish;
     map["charges"]=m_Charges;
+    map["income"]=m_Income;
+    map["expense"]=m_Expense;
+    map["ieType"]=m_IEType;
     map["paid"]=m_Paid;
     map["remark"]=m_Remark;
     map["empID"]=m_EmpID;
@@ -87,6 +100,9 @@ class Service_Log {
     this.m_TargetDate = o["targetDate"] != null ? DateTime.parse(o["targetDate"]) : null;
     this.m_Finish = o["finish"];
     this.m_Charges = o["charges"] != null ? double.parse(o["charges"].toString()) : 0.0;
+    this.m_Income = o["income"] != null ? double.parse(o["income"].toString()) : 0.0;
+    this.m_Expense = o["expense"] != null ? double.parse(o["expense"].toString()) : 0.0;
+    this.m_IEType = o["ieType"] != null ? int.parse(o["ieType"].toString()) : 0;
     this.m_Paid = o["paid"];
     this.m_Remark = o["remark"];
     this.m_EmpID = o["empID"] != null ? double.parse(o["empID"].toString()) : 0.0;
