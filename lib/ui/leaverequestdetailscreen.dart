@@ -7,6 +7,8 @@ import 'package:people_app/models/user.dart';
 import 'package:people_app/models/param_output.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'file_picker_service.dart';
+import 'dart:io';
 
 class LeaveRequestDetailScreen extends StatefulWidget {
   final Leave_Request_His leave_request_his;
@@ -17,6 +19,9 @@ class LeaveRequestDetailScreen extends StatefulWidget {
 }
 
 class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
+  final FilePickerService _filePickerService = FilePickerService();
+  File? _selectedFile;
+
   Leave_Request_His leave_request_his;
   _LeaveRequestDetailScreen(this.leave_request_his);
 
@@ -155,6 +160,19 @@ class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
     }
   }
 
+  void _pickFile() async {
+    File? file = await _filePickerService.pickFile();
+    setState(() {
+      _selectedFile = file;
+    });
+  }
+
+  void _uploadFile() async {
+    if (_selectedFile != null) {
+      await _filePickerService.uploadFile(_selectedFile!, 'YOUR_API_ENDPOINT');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -187,6 +205,26 @@ class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
     return Padding(
       padding: EdgeInsets.only(top: 35.0, left: 10.0, right: 10.0),
       child: ListView( children: <Widget>[
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _pickFile,
+              child: Text('Pick File'),
+            ),
+            if (_selectedFile != null) ...[
+              Text('File selected: ${_selectedFile!.path}'),
+              ElevatedButton(
+                onPressed: _uploadFile,
+                child: Text('Upload File'),
+              ),
+            ],
+          ],
+        ),
+
+        Padding(padding: EdgeInsets.only(top:15.0,bottom: 15.0)),
 
         Row(
             mainAxisAlignment: MainAxisAlignment.center,
