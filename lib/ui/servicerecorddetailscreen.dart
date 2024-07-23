@@ -479,13 +479,13 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
                   title: DropdownButton<String>(
                     isExpanded: true,
                     style: textStyle,
-                    items: _IEType_List.map((String value){
+                    items: _IETypeList.map((String value){
                       return DropdownMenuItem<String>(
                         value:value,
                         child:Text(value),
                       );
                     }).toList(),
-                    hint: Text("IE Type"),
+                    hint: Text("I/E Type"),
                     value: ietypeSelectedValue,
                     //value: retrieveTeam(service_log.ietype!),
                     isDense: true,
