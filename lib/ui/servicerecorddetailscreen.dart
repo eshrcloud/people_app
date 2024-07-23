@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:people_app/services/api.services.dart';
 import 'package:people_app/models/Service_Log.dart';
 import 'package:people_app/models/Team.dart';
+import 'package:people_app/models/ie_type.dart';
 import 'package:people_app/models/emp_login.dart';
 import 'package:people_app/models/Service_Assign.dart';
 import 'package:people_app/models/user.dart';
@@ -24,11 +25,14 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
 
   late List<Team> _team_List;
   late List<Emp_Login> _emp_Login_List;
+  late List<IE_Type> _IEType_List;
 
   late List<String> _teamList= [''];
   late List<String> _empList= [];
+  late List<String> _IETypeList= [''];
   List<String> _selectedItems = [];
   var teamSelectedValue;
+  var ietypeSelectedValue;
 
   var productController = TextEditingController();
   var clientController = TextEditingController();
@@ -36,7 +40,8 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
   var reqDateController = TextEditingController();
   var targetDateController = TextEditingController();
   bool finishController = false;
-  var chargesController = TextEditingController();
+  var incomeController = TextEditingController();
+  var expenseController = TextEditingController();
   bool paidController = false;
   var remarkController = TextEditingController();
 
@@ -87,6 +92,41 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
       _team_List.forEach((item) {
         if (item.team_ID == service_log.teamID) {
           teamSelectedValue = item.team_Name;
+        }
+      });
+
+    });
+
+    await APIServices.fetchIEType().then((response) async{
+      Iterable list=json.decode(response.body);
+      List<IE_Type>? ieList;
+      ieList = list.map((model)=> IE_Type.fromObject(model)).toList();
+
+      setState(() {
+        _IEType_List = ieList!;
+      });
+
+      if (ieList!.isNotEmpty) {
+        if (ieList!.length > 0) {
+          ieList.forEach((item) {
+            setState(() {
+              _IETypeList.add(item.Name);
+              /*
+              if (ieList!.contains(item.Name) == false) {
+                _IETypeList.add(item.Name);
+              }
+               */
+            });
+          });
+        }
+        else {
+          //print('fetchAttdCheckByEmpIDLogDate isEmpty');
+        }
+      }
+
+      _IEType_List.forEach((item) {
+        if (item.IEType == service_log.ieType) {
+          ietypeSelectedValue = item.Name;
         }
       });
 
@@ -173,7 +213,8 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
       //print('Finish-' + service_log.finish.toString());
       finishController = service_log.finish!;
       //print('Charges-' + service_log.charges.toString());
-      chargesController.text=service_log.charges.toString();
+      incomeController.text=service_log.income.toString();
+      expenseController.text=service_log.expense.toString();
       //print('Paid-' + service_log.paid.toString());
       paidController = service_log.paid!;
       //print('Remark-' + service_log.remark.toString());
@@ -182,6 +223,12 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
       _team_List.forEach((item) {
         if (item.team_ID == service_log.teamID) {
           teamSelectedValue = item.team_Name;
+        }
+      });
+      
+      _IEType_List.forEach((item) {
+        if (item.ietype == service_log.ietype) {
+          ietypeSelectedValue = item.Name;
         }
       });
  */
@@ -423,17 +470,50 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
 
         Padding(padding: EdgeInsets.only(top:15.0,bottom: 15.0)),
 
-        TextField(
-          controller: remarkController,
-          style: textStyle,
-          onChanged: (value)=>updateRemark(),
-          decoration: InputDecoration(
-              labelText: "Remark",
-              labelStyle: textStyle,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0)
-              )
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+                child: ListTile(
+                  title: DropdownButton<String>(
+                    isExpanded: true,
+                    style: textStyle,
+                    items: _IEType_List.map((String value){
+                      return DropdownMenuItem<String>(
+                        value:value,
+                        child:Text(value),
+                      );
+                    }).toList(),
+                    hint: Text("IE Type"),
+                    value: ietypeSelectedValue,
+                    //value: retrieveTeam(service_log.ietype!),
+                    isDense: true,
+                    onChanged: (value){
+                      setState(() {
+                        ietypeSelectedValue = value;
+                      });
+                      updateIEType(value);
+                    },
+                  ),
+                ),
+            ),
+
+            Expanded(
+                child: TextField(
+                controller: remarkController,
+                style: textStyle,
+                onChanged: (value)=>updateRemark(),
+                decoration: InputDecoration(
+                    labelText: "Remark",
+                    labelStyle: textStyle,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0)
+                    )
+                ),
+              ),
+            ),
+          ],
         ),
 
         Padding(padding: EdgeInsets.only(top:15.0,bottom: 15.0)),
@@ -523,32 +603,66 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-                child: TextField(
-                  controller: chargesController,
-                  style: textStyle,
-                  onChanged: (value)=>updateCharges(),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                    TextInputFormatter.withFunction((oldValue, newValue) {
-                      try {
-                        final text = newValue.text;
-                        if (text.isNotEmpty) double.parse(text);
-                        return newValue;
-                      } catch (e) {}
-                      return oldValue;
-                    })
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:[
+                    Expanded(
+                        child: TextField(
+                          controller: incomeController,
+                          style: textStyle,
+                          onChanged: (value)=>updateIncome(),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                            TextInputFormatter.withFunction((oldValue, newValue) {
+                              try {
+                                final text = newValue.text;
+                                if (text.isNotEmpty) double.parse(text);
+                                return newValue;
+                              } catch (e) {}
+                              return oldValue;
+                            })
+                          ],
+                          decoration: InputDecoration(
+                              labelText: "Income",
+                              labelStyle: textStyle,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0)
+                              )
+                          ),
+                        )
+                    ),
+                    Expanded(
+                        child: TextField(
+                          controller: expenseController,
+                          style: textStyle,
+                          onChanged: (value)=>updateExpense(),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                            TextInputFormatter.withFunction((oldValue, newValue) {
+                              try {
+                                final text = newValue.text;
+                                if (text.isNotEmpty) double.parse(text);
+                                return newValue;
+                              } catch (e) {}
+                              return oldValue;
+                            })
+                          ],
+                          decoration: InputDecoration(
+                              labelText: "Charges",
+                              labelStyle: textStyle,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0)
+                              )
+                          ),
+                        )
+                      ),
                   ],
-                  decoration: InputDecoration(
-                      labelText: "Charges",
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0)
-                      )
-                  ),
                 )
             ),
-
+            
             Expanded(
                 child: CheckboxListTile(
                   title: Text("Paid"),
@@ -606,6 +720,7 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
         });
       }
     });
+
     /*
     switch (value){
       case "iCare Team":
@@ -619,6 +734,20 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
         break;
     }
      */
+  }
+
+  String retrieveIEType(int value){
+    return value == 0 ? _IETypeList[0]: _IETypeList[value - 1];
+  }
+
+  void updateIEType(String? value){
+    _IEType_List.forEach((item) {
+      if (item.Name == value){
+        setState(() {
+          service_log.ieType = item.IEType;
+        });
+      }
+    });
   }
 
   void updateProduct(){
@@ -664,9 +793,15 @@ class _ServiceRecordDetailScreenState extends State<ServiceRecordDetailScreen> {
     });
   }
 
-  void updateCharges(){
+  void updateIncome(){
     setState(() {
-      service_log.charges = double.parse(chargesController.text);
+      service_log.income = double.parse(incomeController.text);
+    });
+  }
+
+  void updateExpense(){
+    setState(() {
+      service_log.expense = double.parse(expenseController.text);
     });
   }
 
@@ -859,4 +994,5 @@ class _MultiSelectState extends State<MultiSelect> {
       ],
     );
   }
+}
 }

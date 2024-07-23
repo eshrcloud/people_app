@@ -14,6 +14,7 @@ import 'package:people_app/models/payslip_detail.dart';
 import 'package:people_app/models/Service_Assign.dart';
 import 'package:people_app/models/Service_Log.dart';
 import 'package:people_app/models/Team.dart';
+import 'package:people_app/models/ie_type.dart';
 import 'package:people_app/models/emp_photo.dart';
 import 'package:people_app/models/employee_user_req.dart';
 import 'package:people_app/models/emp_education_user_req.dart';
@@ -611,6 +612,16 @@ class APIServices{
     String teamUrl = '/api/Team';
 
     return await http.get(Uri.parse(serverIP + teamUrl),headers: header);
+  }
+
+  static Future fetchIEType() async{
+    late String serverIP;
+    late SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    serverIP = (sharedPreferences.getString('serverIP')! != '') ? sharedPreferences.getString('serverIP')! : 'http://103.47.185.237:99';
+    String ietypeUrl = '/api/IE_Type';
+
+    return await http.get(Uri.parse(serverIP + ietypeUrl),headers: header);
   }
 
   static Future fetchUserReq(double EmpID) async{
