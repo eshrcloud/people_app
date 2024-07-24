@@ -17,12 +17,12 @@ class FilePickerService {
     return null;
   }
 
-  Future<void> uploadFile(File file, String url) async {
+  Future<void> uploadFile(double vReqId, File file, String url) async {
     late String serverIP;
     late SharedPreferences sharedPreferences;
     sharedPreferences = await SharedPreferences.getInstance();
     serverIP = (sharedPreferences.getString('serverIP')! != '') ? sharedPreferences.getString('serverIP')! : 'http://103.47.185.240:99';
-    String attachfileUrl = '/api/Attach_File/AttachFile';
+    String attachfileUrl = '/api/Attach_File/AttachFile/reqid=' + vReqId.toString();
 
     var request = http.MultipartRequest('POST', Uri.parse(attachfileUrl));
     request.files.add(await http.MultipartFile.fromPath('file', file.path));

@@ -316,6 +316,20 @@ class APIServices{
     return await http.post(Uri.parse(serverIP + '/api/Leave_Request_Custom?empID='+EmpID.toString()+'&month='+Month+'&year=' + Year),headers: header);
   }
 
+  static Future fetchLeaveRequestByEmpDates(double EmpID, String sDate, String eDate) async{
+/*
+    print(EmpID);
+    print('Month-' + Month);
+    print('Year-' + Year);
+*/
+    late String serverIP;
+    late SharedPreferences sharedPreferences;
+    sharedPreferences = await SharedPreferences.getInstance();
+    serverIP = (sharedPreferences.getString('serverIP')! != '') ? sharedPreferences.getString('serverIP')! : 'http://103.47.185.237:99';
+
+    return await http.post(Uri.parse(serverIP + '/api/Leave_Request_Custom_ByEmpDates?empID='+EmpID.toString()+'&sDate='+sDate+'&eDate=' + eDate),headers: header);
+  }
+
   static Future fetchLeaveRequestHis() async{
     late String serverIP;
     late SharedPreferences sharedPreferences;
@@ -326,7 +340,7 @@ class APIServices{
     return await http.get(Uri.parse(serverIP + leaveRequestUrl),headers: header);
   }
 
-  static Future<bool> postLeaveRequestHis(Leave_Request_His obj) async{
+  static Future postLeaveRequestHis(Leave_Request_His obj) async{
     var myObj = obj.toMap();
     var ObjBody = json.encode(myObj);
     //print('postLeaveRequestHis');
@@ -342,8 +356,8 @@ class APIServices{
     print(ObjBody.toString());
 
     var res = await http.post(Uri.parse(serverIP + leaveRequestUrl),headers: header,body: ObjBody);
-
     return Future.value(res.statusCode==200?true:false);
+    //return await http.get(Uri.parse(serverIP + leaveRequestUrl),headers: header, body: ObjBody);
   }
 
   static Future<bool> deleteLeaveRequestHis(double id) async{

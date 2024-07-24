@@ -995,4 +995,3 @@ class _MultiSelectState extends State<MultiSelect> {
     );
   }
 }
-}

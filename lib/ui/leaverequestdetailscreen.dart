@@ -167,9 +167,9 @@ class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
     });
   }
 
-  void _uploadFile() async {
+  void _uploadFile(double vReqId) async {
     if (_selectedFile != null) {
-      await _filePickerService.uploadFile(_selectedFile!, 'YOUR_API_ENDPOINT');
+      await _filePickerService.uploadFile(vReqId, _selectedFile!, 'YOUR_API_ENDPOINT');
     }
   }
 
@@ -216,10 +216,10 @@ class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
             ),
             if (_selectedFile != null) ...[
               Text('File selected: ${_selectedFile!.path}'),
-              ElevatedButton(
-                onPressed: _uploadFile,
-                child: Text('Upload File'),
-              ),
+              // ElevatedButton(
+              //   onPressed: _uploadFile(0),
+              //   child: Text('Upload File'),
+              // ),
             ],
           ],
         ),
@@ -591,6 +591,24 @@ class _LeaveRequestDetailScreen extends State<LeaveRequestDetailScreen> {
     var saveResponse = await APIServices.postLeaveRequestHis(leave_request_his);
     print(saveResponse);
     if (saveResponse == true) {
+
+      double vReqId=0;
+
+      await APIServices.fetchLeaveRequestByEmpDates(User.employeeId,leave_request_his.from_Date.toString(),leave_request_his.to_Date.toString()).then((response) async{
+        Iterable list=json.decode(response.body);
+        List<Leave_Request_His>? leaveList;
+        leaveList = list.map((model)=> Leave_Request_His.fromObject(model)).toList();
+
+        if (leaveList!.isNotEmpty) {
+          if (leaveList!.length > 0) {
+            vReqId = leaveList[0].req_ID;
+          }
+        }
+
+      });
+
+      _uploadFile(vReqId);
+
       Navigator.pop(context, true);
     }
     else{
